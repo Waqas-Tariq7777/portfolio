@@ -115,6 +115,14 @@ const Process = () => {
     return () => clearInterval(interval)
   }, [isHovered, activeStep])
 
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const handleStepClick = (idx) => {
     if (idx === activeStep) return
     setIsTransitioning(true)
@@ -124,7 +132,10 @@ const Process = () => {
     }, 350)
   }
 
-  const subtleFadeUp = {
+  const subtleFadeUp = isMobile ? {
+    hidden: { opacity: 1, y: 0 },
+    visible: { opacity: 1, y: 0 }
+  } : {
     hidden: { opacity: 0, y: 15 },
     visible: { 
       opacity: 1, 
@@ -136,9 +147,9 @@ const Process = () => {
   return (
     <motion.section 
       id="process" 
-      initial="hidden"
+      initial={isMobile ? "visible" : "hidden"}
       whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, margin: isMobile ? "0px" : "-100px" }}
       variants={subtleFadeUp}
       className="relative w-full pt-5 pb-12 sm:pt-5 sm:pb-16 select-none overflow-hidden border-b border-c-border"
     >

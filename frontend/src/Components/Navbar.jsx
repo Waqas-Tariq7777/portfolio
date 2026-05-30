@@ -51,7 +51,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-white/3 dark:bg-[#0A0A0F]/25 backdrop-blur-xl border-b border-white/5 dark:border-white/5 shadow-[0_4px_30px_rgba(0,0,0,0.02)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] transition-all duration-500">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-white/3 dark:bg-[#0A0A0F]/25 md:backdrop-blur-xl backdrop-blur-md border-b border-white/5 dark:border-white/5 shadow-[0_4px_30px_rgba(0,0,0,0.02)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] transition-all duration-500">
       <div className="max-w-7xl mx-auto px-4 md:px-5 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
@@ -156,7 +156,7 @@ const Navbar = () => {
 
       {/* Mobile Drawer Overlay */}
       {isOpen && (
-        <div className="md:hidden fixed inset-x-0 top-20 bg-c-bg/95 border-b border-c-border shadow-2xl backdrop-blur-lg animate-in slide-in-from-top duration-300 z-40">
+        <div className="md:hidden fixed inset-x-0 top-20 bg-c-bg border-b border-c-border shadow-2xl z-40">
           <div className="px-4 pt-4 pb-6 space-y-2 flex flex-col items-stretch max-h-[calc(100vh-5rem)] overflow-y-auto">
             {navItems.map((item) => {
               const isActive = location.pathname === item.href

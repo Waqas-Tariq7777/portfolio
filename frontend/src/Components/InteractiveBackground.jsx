@@ -26,6 +26,11 @@ const InteractiveBackground = () => {
 
   useEffect(() => {
     if (isExcludedRoute) return
+
+    // Disable interactive follower on mobile and tablet devices (< 1024px) to optimize performance & battery
+    const isLaptop = typeof window !== 'undefined' && window.innerWidth >= 1024
+    if (!isLaptop) return
+
     let animId
     let isLoopRunning = false
 
@@ -118,7 +123,7 @@ const InteractiveBackground = () => {
   if (isExcludedRoute) return null;
 
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden z-[5] select-none">
+    <div className="hidden lg:block fixed inset-0 pointer-events-none overflow-hidden z-[5] select-none">
       {/* 1. Subtle, Large Cyan/Purple Ambient Spot Backglow */}
       <div 
         ref={glowRef}

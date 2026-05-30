@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Code2, Palette, Bug, Settings, Zap, Check } from 'lucide-react'
 import { motion } from 'framer-motion'
 
@@ -354,6 +354,14 @@ const pricingCategories = [
 const Pricing = () => {
   const [activePricingCat, setActivePricingCat] = useState("development")
   const [isPricingTransitioning, setIsPricingTransitioning] = useState(false)
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handlePricingCatClick = (catId) => {
     if (catId === activePricingCat) return
@@ -364,7 +372,10 @@ const Pricing = () => {
     }, 300)
   }
 
-  const subtleFadeUp = {
+  const subtleFadeUp = isMobile ? {
+    hidden: { opacity: 1, y: 0 },
+    visible: { opacity: 1, y: 0 }
+  } : {
     hidden: { opacity: 0, y: 15 },
     visible: { 
       opacity: 1, 
@@ -376,9 +387,9 @@ const Pricing = () => {
   return (
     <motion.section 
       id="pricing" 
-      initial="hidden"
+      initial={isMobile ? "visible" : "hidden"}
       whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, margin: isMobile ? "0px" : "-100px" }}
       variants={subtleFadeUp}
       className="relative z-10 w-full pt-10 pb-28 select-none overflow-hidden border-b border-c-border"
     >

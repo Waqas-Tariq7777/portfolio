@@ -20,9 +20,17 @@ const About = () => {
   const [animateProgress, setAnimateProgress] = useState(false);
   const techSectionRef = useRef(null);
 
+  const [isMobile, setIsMobile] = useState(false);
+
   useEffect(() => {
     fetchExperiences();
     fetchCertificates();
+
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -40,6 +48,7 @@ const About = () => {
     }
 
     return () => {
+      window.removeEventListener('resize', handleResize);
       if (techSectionRef.current) {
         observer.unobserve(techSectionRef.current);
       }
@@ -51,7 +60,10 @@ const About = () => {
     setIsPopupOpen(true);
   };
 
-  const subtleFadeUp = {
+  const subtleFadeUp = isMobile ? {
+    hidden: { opacity: 1, y: 0 },
+    visible: { opacity: 1, y: 0 }
+  } : {
     hidden: { opacity: 0, y: 15 },
     visible: { 
       opacity: 1, 
@@ -148,9 +160,9 @@ const About = () => {
 
       {/* 2. Core content Grid */}
       <motion.section 
-        initial="hidden"
+        initial={isMobile ? "visible" : "hidden"}
         whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true, margin: isMobile ? "0px" : "-100px" }}
         variants={subtleFadeUp}
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 sm:mt-24 w-full relative z-10 text-left"
       >
@@ -196,9 +208,9 @@ const About = () => {
       {/* 2.5 Technology Stack Section */}
       <motion.section 
         ref={techSectionRef} 
-        initial="hidden"
+        initial={isMobile ? "visible" : "hidden"}
         whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true, margin: isMobile ? "0px" : "-100px" }}
         variants={subtleFadeUp}
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 sm:mt-32 w-full relative z-10 text-left"
       >
@@ -254,9 +266,9 @@ const About = () => {
 
       {/* 3. Professional Journey Timeline Section */}
       <motion.section 
-        initial="hidden"
+        initial={isMobile ? "visible" : "hidden"}
         whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true, margin: isMobile ? "0px" : "-100px" }}
         variants={subtleFadeUp}
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 sm:mt-32 w-full relative z-10 text-left"
       >

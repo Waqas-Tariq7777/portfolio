@@ -68,6 +68,14 @@ const Testimonials = () => {
   const [activeIndex, setActiveIndex] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
   const [autoplay, setAutoplay] = useState(true)
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     if (!autoplay) return
@@ -106,7 +114,10 @@ const Testimonials = () => {
     }, 400)
   }
 
-  const subtleFadeUp = {
+  const subtleFadeUp = isMobile ? {
+    hidden: { opacity: 1, y: 0 },
+    visible: { opacity: 1, y: 0 }
+  } : {
     hidden: { opacity: 0, y: 15 },
     visible: { 
       opacity: 1, 
@@ -118,9 +129,9 @@ const Testimonials = () => {
   return (
     <motion.section 
       id="testimonials" 
-      initial="hidden"
+      initial={isMobile ? "visible" : "hidden"}
       whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, margin: isMobile ? "0px" : "-100px" }}
       variants={subtleFadeUp}
       style={{ 
         backgroundImage: `url(${testimonialBg})`,

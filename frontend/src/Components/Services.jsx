@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { ArrowUpRight, Code2, Database, Palette, Layout, Globe, BookOpen, PenTool, Monitor, Settings, Smartphone, Bug, Zap } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
@@ -116,7 +117,18 @@ function ShoppingBagIcon(props) {
 }
 
 const Services = () => {
-  const subtleFadeUp = {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const subtleFadeUp = isMobile ? {
+    hidden: { opacity: 1, y: 0 },
+    visible: { opacity: 1, y: 0 }
+  } : {
     hidden: { opacity: 0, y: 15 },
     visible: { 
       opacity: 1, 
@@ -128,9 +140,9 @@ const Services = () => {
   return (
     <motion.section 
       id="services" 
-      initial="hidden"
+      initial={isMobile ? "visible" : "hidden"}
       whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, margin: isMobile ? "0px" : "-100px" }}
       variants={subtleFadeUp}
       className="relative z-10 w-full pt-20 pb-10 select-none overflow-hidden border-b border-c-border"
     >

@@ -4,6 +4,7 @@ import * as THREE from 'three'
 import { ArrowUpRight, Cpu, Sparkles, Briefcase, ShoppingBag, Zap, Heart, Award, Rocket, Target, Search, Compass, Layers, Code2, ShieldCheck, Palette, Globe, BookOpen, PenTool, Monitor, Settings, Smartphone, Bug, Database, Layout, Check, Loader2, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 import myImage from '../assets/images/myImage.png'
+import developerIllustration from '../assets/images/developer_illustration.png'
 import Services from '../Components/Services'
 import Pricing from '../Components/Pricing'
 import Process from '../Components/Process'
@@ -23,12 +24,24 @@ const words = [
 const Home = () => {
   const mountRef = useRef(null)
   const { projects, fetchProjects, loading } = useProjectStore()
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     fetchProjects()
+    
+    // Check screen size to toggle animation/three.js loops dynamically
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  const subtleFadeUp = {
+  const subtleFadeUp = isMobile ? {
+    hidden: { opacity: 1, y: 0 },
+    visible: { opacity: 1, y: 0 }
+  } : {
     hidden: { opacity: 0, y: 15 },
     visible: { 
       opacity: 1, 
@@ -36,6 +49,7 @@ const Home = () => {
       transition: { duration: 0.5, ease: "easeOut" }
     }
   }
+
 
   // Motivational Words for the scrolling slider section paired with premium styles
   const motivationalWords = [
@@ -107,6 +121,10 @@ const Home = () => {
 
   useEffect(() => {
     if (!mountRef.current) return
+
+    // Disable Three.js on mobile/tablet to boost performance and prevent rendering lag
+    const isLaptop = typeof window !== 'undefined' && window.innerWidth >= 1024
+    if (!isLaptop) return
 
     // Scene Setup
     const container = mountRef.current
@@ -622,21 +640,32 @@ const Home = () => {
 
           </div>
 
-          {/* Right Side: Interactive 3D WebGL Canvas Area */}
-          <div className="lg:col-span-6 flex justify-center items-center animate-in fade-in slide-in-from-right-6 duration-700 relative">
+          {/* Right Side: Interactive 3D WebGL Canvas Area (Laptop/Desktop) & Gorgeous Developer Illustration (Mobile/Tablet) */}
+          <div className="lg:col-span-6 flex justify-center items-center animate-in fade-in slide-in-from-right-6 duration-700 relative w-full">
             {/* Ambient project glowing backlights */}
             <div className="absolute w-[350px] h-[350px] rounded-full bg-c-primary/5 blur-[90px] pointer-events-none z-0" />
             <div className="absolute w-[300px] h-[300px] rounded-full bg-c-accent/5 blur-[100px] pointer-events-none z-0" />
             
-            {/* The 3D scene mount container - significantly scaled up and fills the banner */}
+            {/* The 3D scene mount container (shown only on lg screens) */}
             <div 
               ref={mountRef}
               style={{
                 maskImage: 'radial-gradient(circle, rgba(0,0,0,1) 62%, rgba(0,0,0,0) 100%)',
                 WebkitMaskImage: 'radial-gradient(circle, rgba(0,0,0,1) 62%, rgba(0,0,0,0) 100%)'
               }}
-              className="w-full h-[450px] sm:h-[550px] md:h-[600px] relative z-10 opacity-90 hover:opacity-100 transition-opacity duration-500 cursor-grab active:cursor-grabbing"
+              className="hidden lg:block w-full h-[450px] sm:h-[550px] md:h-[600px] relative z-10 opacity-90 hover:opacity-100 transition-opacity duration-500 cursor-grab active:cursor-grabbing"
             />
+
+            {/* Premium, Optimized Static Developer Illustration (shown only on mobile/tablet) */}
+            <div className="block lg:hidden w-full max-w-sm sm:max-w-md mx-auto relative z-10 p-4">
+              <div className="relative rounded-[32px] border border-white/10 dark:border-white/5 bg-white/5 dark:bg-[#1A1A2E]/30 p-3 shadow-2xl backdrop-blur-md overflow-hidden">
+                <img 
+                  src={developerIllustration} 
+                  alt="Developer Workstation" 
+                  className="w-full h-auto max-h-[350px] object-contain rounded-2xl select-none"
+                />
+              </div>
+            </div>
           </div>
          </motion.div>
        </div>
@@ -719,10 +748,10 @@ const Home = () => {
     {/* Modern Glassy About Me Section */}
     <motion.section 
       id="about" 
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      whileInView={isMobile ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.8 }}
+      transition={isMobile ? { duration: 0 } : { duration: 0.8 }}
       className="relative w-full pt-24 pb-12 sm:pt-32 sm:pb-16 border-b border-c-border select-none overflow-hidden"
     >
       {/* Glassy Background Overlay Sandwich Layer */}
