@@ -1,18 +1,8 @@
 import React from 'react'
-import { motion } from 'framer-motion'
 import { BookOpen, ArrowDown } from 'lucide-react'
 import blogsBg from '../assets/images/blogs_bg.png'
 
 const BlogBanner = () => {
-  const subtleFadeUp = {
-    hidden: { opacity: 0, y: 15 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.5, ease: "easeOut" }
-    }
-  }
-
   return (
     <section 
       style={{ 
@@ -28,12 +18,7 @@ const BlogBanner = () => {
       <div className="absolute top-1/4 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[380px] h-[380px] bg-c-primary/15 rounded-full blur-[110px] pointer-events-none z-1 animate-pulse" />
       <div className="absolute bottom-1/4 right-1/3 translate-x-1/2 translate-y-1/2 w-[400px] h-[400px] bg-c-accent/15 rounded-full blur-[120px] pointer-events-none z-1 animate-pulse delay-1000" />
 
-      <motion.div 
-        initial="hidden"
-        animate="visible"
-        variants={subtleFadeUp}
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 text-left space-y-6"
-      >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 text-left space-y-6">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200/80 dark:border-white/10 bg-white/50 dark:bg-white/5 text-xs font-bold text-c-accent uppercase tracking-wider shadow-[inset_0_1px_0_rgba(255,255,255,0.15)] backdrop-blur-md">
           <BookOpen className="w-3.5 h-3.5 text-c-accent animate-pulse" />
           <span>Knowledge & Insights</span>
@@ -59,7 +44,7 @@ const BlogBanner = () => {
             <ArrowDown className="w-3.5 h-3.5 animate-bounce" />
           </a>
         </div>
-      </motion.div>
+      </div>
     </section>
   )
 }

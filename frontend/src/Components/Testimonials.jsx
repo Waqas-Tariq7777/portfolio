@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ChevronLeft, ChevronRight, Quote, Star, User, ArrowUpRight } from 'lucide-react'
-import { motion } from 'framer-motion'
 import testimonialBg from '../assets/images/testimonial_bg.png'
 
 // Client profiles with paths to images or markers for default avatars
@@ -68,11 +67,6 @@ const Testimonials = () => {
   const [activeIndex, setActiveIndex] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
   const [autoplay, setAutoplay] = useState(true)
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 1024)
-  }, [])
 
   useEffect(() => {
     if (!autoplay) return
@@ -111,22 +105,9 @@ const Testimonials = () => {
     }, 400)
   }
 
-  const subtleFadeUp = {
-    hidden: { opacity: 0, y: 15 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.5, ease: "easeOut" }
-    }
-  };
-
   return (
-    <motion.section 
+    <section 
       id="testimonials" 
-      initial={isMobile ? false : "hidden"}
-      whileInView={isMobile ? undefined : "visible"}
-      viewport={{ once: true, margin: "-100px" }}
-      variants={subtleFadeUp}
       style={{ 
         backgroundImage: `url(${testimonialBg})`,
         backgroundAttachment: 'fixed',
@@ -278,7 +259,7 @@ const Testimonials = () => {
         </div>
 
       </div>
-    </motion.section>
+    </section>
   )
 }
 

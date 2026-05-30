@@ -6,7 +6,6 @@ import {
   Clock, BookOpen, Trophy, Loader2, Database, Globe, Lock, Brain, 
   Search, Layout, ShoppingBag, Terminal, Server, Send, Atom, FileCode 
 } from 'lucide-react'
-import { motion } from 'framer-motion'
 import aboutBg from '../assets/images/about_bg.png'
 import myImage from '../assets/images/myImage.png'
 import ImagePopup from '../Components/ImagePopup'
@@ -18,13 +17,11 @@ const About = () => {
   const [popupImage, setPopupImage] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [animateProgress, setAnimateProgress] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
   const techSectionRef = useRef(null);
 
   useEffect(() => {
     fetchExperiences();
     fetchCertificates();
-    setIsMobile(window.innerWidth < 1024);
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -51,15 +48,6 @@ const About = () => {
   const handleImageClick = (imageUrl) => {
     setPopupImage(imageUrl);
     setIsPopupOpen(true);
-  };
-
-  const subtleFadeUp = {
-    hidden: { opacity: 0, y: 15 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.5, ease: "easeOut" }
-    }
   };
 
   const stats = [
@@ -125,12 +113,7 @@ const About = () => {
         <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-[350px] h-[350px] bg-c-accent/10 rounded-full blur-[110px] pointer-events-none z-1" />
 
         {/* Banner Content Container */}
-        <motion.div 
-          initial="hidden"
-          animate="visible"
-          variants={subtleFadeUp}
-          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 text-left space-y-6"
-        >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 text-left space-y-6">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 dark:border-white/10 bg-white/40 dark:bg-white/5 text-xs font-bold text-c-accent uppercase tracking-wider shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
             Explore My Story
           </div>
@@ -145,15 +128,12 @@ const About = () => {
           <p className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-c-sec-text max-w-2xl leading-relaxed font-semibold">
             I’m Waqas Tariq, a Senior Web Architect and Fullstack Engineer. I specialize in designing lightning-fast frontend architectures, highly secure REST/GraphQL API systems, and bespoke e-commerce store solutions tailored for conversions and scalable business growth.
           </p>
-        </motion.div>
+        </div>
       </section>
 
       {/* 2. Core content Grid */}
-      <motion.section 
-        initial={isMobile ? false : "hidden"}
-        whileInView={isMobile ? undefined : "visible"}
-        viewport={{ once: true, margin: "-100px" }}
-        variants={subtleFadeUp}
+      <section 
+        id="about" 
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 sm:mt-24 w-full relative z-10 text-left"
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 sm:gap-16 items-start">
@@ -193,15 +173,11 @@ const About = () => {
           </div>
 
         </div>
-      </motion.section>
+      </section>
 
       {/* 2.5 Technology Stack Section */}
-      <motion.section 
+      <section 
         ref={techSectionRef} 
-        initial={isMobile ? false : "hidden"}
-        whileInView={isMobile ? undefined : "visible"}
-        viewport={{ once: true, margin: "-100px" }}
-        variants={subtleFadeUp}
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 sm:mt-32 w-full relative z-10 text-left"
       >
         <div className="text-center space-y-3 mb-16">
@@ -252,16 +228,10 @@ const About = () => {
             </div>
           ))}
         </div>
-      </motion.section>
+      </section>
 
       {/* 3. Professional Journey Timeline Section */}
-      <motion.section 
-        initial={isMobile ? false : "hidden"}
-        whileInView={isMobile ? undefined : "visible"}
-        viewport={{ once: true, margin: "-100px" }}
-        variants={subtleFadeUp}
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 sm:mt-32 w-full relative z-10 text-left"
-      >
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 sm:mt-32 w-full relative z-10 text-left">
         {/* Live dynamic flowing smoke effect (#39bdd3) */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10 rounded-[3rem]">
           <style>{`
@@ -517,7 +487,7 @@ const About = () => {
           })()}
  
          </div>
-       </motion.section>
+       </section>
  
        {/* Certificate Image Popup Modal */}
        <ImagePopup 

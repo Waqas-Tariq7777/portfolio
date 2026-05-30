@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Code2, Palette, Bug, Settings, Zap, Check } from 'lucide-react'
-import { motion } from 'framer-motion'
 
 const pricingCategories = [
   {
@@ -354,11 +353,6 @@ const pricingCategories = [
 const Pricing = () => {
   const [activePricingCat, setActivePricingCat] = useState("development")
   const [isPricingTransitioning, setIsPricingTransitioning] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 1024)
-  }, [])
 
   const handlePricingCatClick = (catId) => {
     if (catId === activePricingCat) return
@@ -369,22 +363,9 @@ const Pricing = () => {
     }, 300)
   }
 
-  const subtleFadeUp = {
-    hidden: { opacity: 0, y: 15 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.5, ease: "easeOut" }
-    }
-  };
-
   return (
-    <motion.section 
+    <section 
       id="pricing" 
-      initial={isMobile ? false : "hidden"}
-      whileInView={isMobile ? undefined : "visible"}
-      viewport={{ once: true, margin: "-100px" }}
-      variants={subtleFadeUp}
       className="relative z-10 w-full pt-10 pb-28 select-none overflow-hidden border-b border-c-border"
     >
       {/* Background glowing shadows matching the overall aesthetics */}
@@ -528,7 +509,7 @@ const Pricing = () => {
         </div>
 
       </div>
-    </motion.section>
+    </section>
   )
 }
 

@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { ArrowUpRight, Code2, Database, Palette, Layout, Globe, BookOpen, PenTool, Monitor, Settings, Smartphone, Bug, Zap } from 'lucide-react'
-import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 
 const services = [
@@ -117,28 +116,9 @@ function ShoppingBagIcon(props) {
 }
 
 const Services = () => {
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 1024)
-  }, [])
-
-  const subtleFadeUp = {
-    hidden: { opacity: 0, y: 15 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.5, ease: "easeOut" }
-    }
-  };
-
   return (
-    <motion.section 
+    <section 
       id="services" 
-      initial={isMobile ? false : "hidden"}
-      whileInView={isMobile ? undefined : "visible"}
-      viewport={{ once: true, margin: "-100px" }}
-      variants={subtleFadeUp}
       className="relative z-10 w-full pt-20 pb-10 select-none overflow-hidden border-b border-c-border"
     >
       {/* Dynamic Ambient Blur Glows matching image layout exactly */}
@@ -227,7 +207,7 @@ const Services = () => {
           <ArrowUpRight className="w-4 h-4 transform transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </Link>
       </div>
-    </motion.section>
+    </section>
   )
 }
 

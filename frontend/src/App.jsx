@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { MotionConfig } from 'framer-motion'
 import Navbar from './Components/Navbar'
 import Home from './Pages/Home'
 import About from './Pages/About'
@@ -22,22 +20,10 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const checkScreen = () => {
-      setIsMobile(window.innerWidth < 1024)
-    }
-    checkScreen()
-    window.addEventListener('resize', checkScreen, { passive: true })
-    return () => window.removeEventListener('resize', checkScreen)
-  }, [])
-
   return (
     <Router>
       <ScrollToTop />
-      <MotionConfig transition={isMobile ? { duration: 0 } : undefined} reducedMotion={isMobile ? "always" : "never"}>
-        <div className="min-h-screen bg-c-bg text-c-text transition-colors duration-300 relative">
+      <div className="min-h-screen bg-c-bg text-c-text transition-colors duration-300 relative">
         {/* Premium Navbar - dynamically tracks active tab from route location */}
         <Navbar />
 
@@ -85,7 +71,6 @@ function App() {
           theme="dark"
         />
       </div>
-      </MotionConfig>
     </Router>
   )
 }

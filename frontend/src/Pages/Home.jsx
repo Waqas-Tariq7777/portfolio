@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import * as THREE from 'three'
 import { ArrowUpRight, Cpu, Sparkles, Briefcase, ShoppingBag, Zap, Heart, Award, Rocket, Target, Search, Compass, Layers, Code2, ShieldCheck, Palette, Globe, BookOpen, PenTool, Monitor, Settings, Smartphone, Bug, Database, Layout, Check, Loader2, ArrowRight } from 'lucide-react'
-import { motion } from 'framer-motion'
 import myImage from '../assets/images/myImage.png'
 import devIllustration from '../assets/images/developer_illustration.png'
 import Services from '../Components/Services'
@@ -39,15 +38,6 @@ const Home = () => {
   useEffect(() => {
     fetchProjects()
   }, [])
-
-  const subtleFadeUp = {
-    hidden: { opacity: 0, y: 15 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.5, ease: "easeOut" }
-    }
-  }
 
   // Motivational Words for the scrolling slider section paired with premium styles
   const motivationalWords = [
@@ -583,12 +573,7 @@ const Home = () => {
       <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-[400px] h-[400px] bg-c-accent/10 rounded-full blur-[130px] pointer-events-none z-1" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-20">
-        <motion.div 
-          initial="hidden"
-          animate="visible"
-          variants={subtleFadeUp}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center"
-        >
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
           {/* Left Side: Content Area */}
           <div className="lg:col-span-6 space-y-8 text-left animate-in fade-in slide-in-from-left-6 duration-700">
@@ -661,8 +646,8 @@ const Home = () => {
               )}
             </div>
           </div>
-         </motion.div>
-       </div>
+        </div>
+      </div>
      </section>
 
     {/* Full-Width Glassmorphic Motivational Text Slider Section */}
@@ -739,12 +724,8 @@ const Home = () => {
       </div>
     </section>
 
-    <motion.section 
+    <section 
       id="about" 
-      initial={isMobile ? false : { opacity: 0, y: 50 }}
-      whileInView={isMobile ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8 }}
       className="relative w-full pt-24 pb-12 sm:pt-32 sm:pb-16 border-b border-c-border select-none overflow-hidden"
     >
       {/* Glassy Background Overlay Sandwich Layer */}
@@ -844,7 +825,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-    </motion.section>
+    </section>
 
     <Process />
 

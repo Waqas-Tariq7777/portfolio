@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { Calendar, Clock, ChevronLeft, ArrowRight, User, Sparkles, Share2, Heart, BookOpen, AlertCircle } from 'lucide-react'
 import { blogData } from '../data/blogData'
-import { motion, useScroll } from 'framer-motion'
 
 const BlogDetails = () => {
   const { id } = useParams()
@@ -11,14 +10,8 @@ const BlogDetails = () => {
 
   const blog = blogData.find((b) => b.id === id)
 
-  // Track page scroll progress for premium reading indicator
-  const { scrollYProgress } = useScroll()
-
-  const [isMobile, setIsMobile] = useState(false)
-
   useEffect(() => {
     window.scrollTo(0, 0)
-    setIsMobile(window.innerWidth < 1024)
   }, [id])
 
   // Scroll Spy for Table of Contents
@@ -221,11 +214,7 @@ const BlogDetails = () => {
 
   return (
     <div className="w-full text-slate-800 dark:text-c-text select-none overflow-hidden pb-24 bg-gradient-to-tr from-[#FAF9F6] via-[#F4F3EE] to-[#EAECE9] dark:from-[#08080C] dark:via-[#0E0E15] dark:to-[#050508] min-h-screen pt-28 relative">
-      {/* Scroll Progress indicator */}
-      <motion.div 
-        className="fixed top-0 left-0 right-0 h-[4px] bg-gradient-to-r from-purple-500 via-indigo-500 to-c-primary origin-left z-50"
-        style={{ scaleX: scrollYProgress }}
-      />
+
 
       {/* Premium Immersive Background Glow Layer */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
@@ -248,9 +237,7 @@ const BlogDetails = () => {
         </div>
 
         {/* Article Meta Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
+        <div 
           className="space-y-5"
         >
           <span className="inline-flex items-center gap-1.5 text-[10px] bg-gradient-to-r from-purple-500/10 to-indigo-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 px-3.5 py-1 rounded-full font-black tracking-widest uppercase shadow-sm">
@@ -285,14 +272,11 @@ const BlogDetails = () => {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Beautiful Floating Featured Image */}
         {blog.imageUrl && (
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.1 }}
+          <div 
             className="relative w-full h-[280px] sm:h-[480px] rounded-[32px] overflow-hidden border border-slate-200/60 dark:border-white/10 bg-black/5 dark:bg-black/20 shadow-2xl group cursor-pointer"
           >
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10" />
@@ -301,7 +285,7 @@ const BlogDetails = () => {
               alt={blog.title} 
               className="w-full h-full object-cover transform group-hover:scale-[1.02] transition-all duration-700"
             />
-          </motion.div>
+          </div>
         )}
 
         {/* Article Layout Grid */}
@@ -310,13 +294,9 @@ const BlogDetails = () => {
           {/* LEFT COLUMN: Longform Text Content Column (lg:col-span-8) */}
           <div className="lg:col-span-8 space-y-6 text-left leading-relaxed">
             {blog.sections.map((sec, idx) => (
-              <motion.section 
+              <section 
                 key={idx} 
                 id={`sec-${idx}`}
-                initial={isMobile ? false : { opacity: 0, y: 15 }}
-                whileInView={isMobile ? undefined : { opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.4 }}
                 className="space-y-2 scroll-mt-24 border-b border-slate-100/50 dark:border-white/[0.02] pb-5 last:border-none last:pb-0"
               >
                 <h2 className="text-xl sm:text-2xl font-black bg-gradient-to-r from-c-primary via-c-accent to-c-accent-2 bg-clip-text text-transparent font-sans tracking-tight pb-1">
@@ -325,7 +305,7 @@ const BlogDetails = () => {
                 <div className="text-slate-700 dark:text-c-sec-text">
                   {renderBlock(sec.content)}
                 </div>
-              </motion.section>
+              </section>
             ))}
           </div>
 
