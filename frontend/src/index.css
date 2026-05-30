@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-c-bg: var(--bg-color);
+  --color-c-sec-bg: var(--secondary-bg);
+  --color-c-card: var(--card-bg);
+  --color-c-primary: var(--primary-color);
+  --color-c-primary-hover: var(--primary-hover);
+  --color-c-accent: var(--accent-color);
+  --color-c-accent-2: var(--accent-2);
+  --color-c-accent-2-hover: var(--accent-2-hover);
+  --color-c-text: var(--text-color);
+  --color-c-sec-text: var(--secondary-text);
+  --color-c-border: var(--border-color);
+}
+
+:root {
+  --bg-color: #FAFAFE; /* Premium Soft Light Violet */
+  --secondary-bg: #F3F3FA;
+  --card-bg: #FFFFFF;
+  --primary-color: #9333EA;
+  --primary-hover: #7C3AED;
+  --accent-color: #0891B2;
+  --accent-2: #EA580C;
+  --accent-2-hover: #C2410C;
+  --text-color: #0F0F17;
+  --secondary-text: #52525B;
+  --border-color: rgba(15, 15, 23, 0.08);
+}
+
+.dark {
+  --bg-color: #0A0A0F; /* Deep black background */
+  --secondary-bg: #121225; /* Section background */
+  --card-bg: #1A1A2E; /* Cards / containers */
+  --primary-color: #A855F7; /* Main buttons (purple pop) */
+  --primary-hover: #9333EA; /* Button hover */
+  --accent-color: #22D3EE; /* Neon cyan glow */
+  --accent-2: #F97316; /* Orange highlight */
+  --accent-2-hover: #EA580C; /* Orange hover */
+  --text-color: #F8FAFC; /* Main text */
+  --secondary-text: #A1A1AA; /* Muted text */
+  --border-color: rgba(255, 255, 255, 0.08); /* Soft glass borders */
+}
+
+* {
+  font-family: 'Outfit', 'Inter', sans-serif;
+}
+
+/* Apply transitions selectively to avoid style calculation lag on animated elements */
+body, section, nav, a, button, input, select, textarea, .card, .glass-panel, .transition-theme {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Infinite Scrolling Marquee Animations with Pause on Hover */
+@keyframes marquee-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-right {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.animate-marquee-left {
+  display: flex;
+  width: max-content;
+  animation: marquee-left 35s linear infinite;
+}
+
+.animate-marquee-right {
+  display: flex;
+  width: max-content;
+  animation: marquee-right 35s linear infinite;
+}
+
+.animate-marquee-services {
+  display: flex;
+  width: max-content;
+  animation: marquee-left 50s linear infinite;
+}
+
+.animate-marquee-left:hover,
+.animate-marquee-right:hover,
+.animate-marquee-services:hover {
+  animation-play-state: paused;
+}
+
