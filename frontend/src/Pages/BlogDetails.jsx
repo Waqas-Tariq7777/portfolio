@@ -14,8 +14,11 @@ const BlogDetails = () => {
   // Track page scroll progress for premium reading indicator
   const { scrollYProgress } = useScroll()
 
+  const [isMobile, setIsMobile] = useState(false)
+
   useEffect(() => {
     window.scrollTo(0, 0)
+    setIsMobile(window.innerWidth < 1024)
   }, [id])
 
   // Scroll Spy for Table of Contents
@@ -310,8 +313,8 @@ const BlogDetails = () => {
               <motion.section 
                 key={idx} 
                 id={`sec-${idx}`}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={isMobile ? false : { opacity: 0, y: 15 }}
+                whileInView={isMobile ? undefined : { opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.4 }}
                 className="space-y-2 scroll-mt-24 border-b border-slate-100/50 dark:border-white/[0.02] pb-5 last:border-none last:pb-0"

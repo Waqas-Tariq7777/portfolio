@@ -17,8 +17,11 @@ const Contact = () => {
   const submitMessage = useMessageStore(state => state.submitMessage)
   const loading = useMessageStore(state => state.loading)
 
+  const [isMobile, setIsMobile] = useState(false)
+
   useEffect(() => {
     window.scrollTo(0, 0)
+    setIsMobile(window.innerWidth < 1024)
   }, [])
 
   const handleChange = (e) => {
@@ -178,8 +181,8 @@ const Contact = () => {
           {/* Right Column: Glassmorphic Interactive Contact Form */}
           <div className="lg:col-span-7">
             <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={isMobile ? false : { opacity: 0, y: 15 }}
+              whileInView={isMobile ? undefined : { opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
               className="p-6 sm:p-10 rounded-[32px] border border-slate-200/60 dark:border-white/5 bg-white/60 dark:bg-white/[0.015] backdrop-blur-xl shadow-xl space-y-6"

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Code2, Palette, Bug, Settings, Zap, Check } from 'lucide-react'
 import { motion } from 'framer-motion'
 
@@ -354,6 +354,11 @@ const pricingCategories = [
 const Pricing = () => {
   const [activePricingCat, setActivePricingCat] = useState("development")
   const [isPricingTransitioning, setIsPricingTransitioning] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 1024)
+  }, [])
 
   const handlePricingCatClick = (catId) => {
     if (catId === activePricingCat) return
@@ -376,8 +381,8 @@ const Pricing = () => {
   return (
     <motion.section 
       id="pricing" 
-      initial="hidden"
-      whileInView="visible"
+      initial={isMobile ? false : "hidden"}
+      whileInView={isMobile ? undefined : "visible"}
       viewport={{ once: true, margin: "-100px" }}
       variants={subtleFadeUp}
       className="relative z-10 w-full pt-10 pb-28 select-none overflow-hidden border-b border-c-border"

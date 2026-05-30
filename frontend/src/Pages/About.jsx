@@ -18,11 +18,13 @@ const About = () => {
   const [popupImage, setPopupImage] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [animateProgress, setAnimateProgress] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const techSectionRef = useRef(null);
 
   useEffect(() => {
     fetchExperiences();
     fetchCertificates();
+    setIsMobile(window.innerWidth < 1024);
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -148,8 +150,8 @@ const About = () => {
 
       {/* 2. Core content Grid */}
       <motion.section 
-        initial="hidden"
-        whileInView="visible"
+        initial={isMobile ? false : "hidden"}
+        whileInView={isMobile ? undefined : "visible"}
         viewport={{ once: true, margin: "-100px" }}
         variants={subtleFadeUp}
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 sm:mt-24 w-full relative z-10 text-left"
@@ -196,8 +198,8 @@ const About = () => {
       {/* 2.5 Technology Stack Section */}
       <motion.section 
         ref={techSectionRef} 
-        initial="hidden"
-        whileInView="visible"
+        initial={isMobile ? false : "hidden"}
+        whileInView={isMobile ? undefined : "visible"}
         viewport={{ once: true, margin: "-100px" }}
         variants={subtleFadeUp}
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 sm:mt-32 w-full relative z-10 text-left"
@@ -254,8 +256,8 @@ const About = () => {
 
       {/* 3. Professional Journey Timeline Section */}
       <motion.section 
-        initial="hidden"
-        whileInView="visible"
+        initial={isMobile ? false : "hidden"}
+        whileInView={isMobile ? undefined : "visible"}
         viewport={{ once: true, margin: "-100px" }}
         variants={subtleFadeUp}
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 sm:mt-32 w-full relative z-10 text-left"

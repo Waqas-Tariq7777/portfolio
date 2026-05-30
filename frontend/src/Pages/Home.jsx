@@ -739,11 +739,10 @@ const Home = () => {
       </div>
     </section>
 
-    {/* Modern Glassy About Me Section */}
     <motion.section 
       id="about" 
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={isMobile ? false : { opacity: 0, y: 50 }}
+      whileInView={isMobile ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.8 }}
       className="relative w-full pt-24 pb-12 sm:pt-32 sm:pb-16 border-b border-c-border select-none overflow-hidden"

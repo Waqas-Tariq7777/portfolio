@@ -99,6 +99,11 @@ const Process = () => {
   const [activeStep, setActiveStep] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
   const [isTransitioning, setIsTransitioning] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 1024)
+  }, [])
 
   // Auto-cycling logic with smooth transitions
   useEffect(() => {
@@ -136,8 +141,8 @@ const Process = () => {
   return (
     <motion.section 
       id="process" 
-      initial="hidden"
-      whileInView="visible"
+      initial={isMobile ? false : "hidden"}
+      whileInView={isMobile ? undefined : "visible"}
       viewport={{ once: true, margin: "-100px" }}
       variants={subtleFadeUp}
       className="relative w-full pt-5 pb-12 sm:pt-5 sm:pb-16 select-none overflow-hidden border-b border-c-border"

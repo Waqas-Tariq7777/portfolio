@@ -68,6 +68,11 @@ const Testimonials = () => {
   const [activeIndex, setActiveIndex] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
   const [autoplay, setAutoplay] = useState(true)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 1024)
+  }, [])
 
   useEffect(() => {
     if (!autoplay) return
@@ -118,8 +123,8 @@ const Testimonials = () => {
   return (
     <motion.section 
       id="testimonials" 
-      initial="hidden"
-      whileInView="visible"
+      initial={isMobile ? false : "hidden"}
+      whileInView={isMobile ? undefined : "visible"}
       viewport={{ once: true, margin: "-100px" }}
       variants={subtleFadeUp}
       style={{ 

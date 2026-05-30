@@ -143,6 +143,7 @@ const reviewsData = [
 
 const Reviews = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [isMobile, setIsMobile] = useState(false);
 
   const categories = ["All", "Development", "Design", "Fullstack", "Optimization"];
 
@@ -161,6 +162,7 @@ const Reviews = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setIsMobile(window.innerWidth < 1024);
   }, []);
 
   return (
@@ -246,8 +248,8 @@ const Reviews = () => {
           {filteredReviews.map((review, index) => (
             <motion.div
               key={review.name}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={isMobile ? false : { opacity: 0, y: 15 }}
+              whileInView={isMobile ? undefined : { opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.05 }}
               className="group flex flex-col justify-between p-6 rounded-3xl border border-slate-200/50 dark:border-white/5 bg-white/40 dark:bg-white/[0.015] backdrop-blur-xl shadow-lg hover:border-c-primary/30 hover:shadow-2xl transition-all duration-300"
