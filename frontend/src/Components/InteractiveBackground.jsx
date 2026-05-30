@@ -1,10 +1,21 @@
-import { useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 
 const InteractiveBackground = () => {
   const location = useLocation()
   const containerRef = useRef(null)
   const glowRef = useRef(null)
+  const [isDesktop, setIsDesktop] = useState(false)
+
+  // Track screen size to enable mouse interaction only on laptops/desktops (min-width: 1025px)
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const media = window.matchMedia('(min-width: 1025px)')
+    const listener = () => setIsDesktop(media.matches)
+    setIsDesktop(media.matches)
+    media.addEventListener('change', listener)
+    return () => media.removeEventListener('change', listener)
+  }, [])
 
   // Hide on login page or admin dashboard / admin pages
   const isExcludedRoute = 
@@ -25,7 +36,7 @@ const InteractiveBackground = () => {
   })
 
   useEffect(() => {
-    if (isExcludedRoute) return
+    if (isExcludedRoute || !isDesktop) return
     let animId
     let isLoopRunning = false
 
@@ -115,10 +126,10 @@ const InteractiveBackground = () => {
     }
   }, [isExcludedRoute])
 
-  if (isExcludedRoute) return null;
+  if (isExcludedRoute || !isDesktop) return null;
 
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden z-[5] select-none">
+    <div className="hidden lg:block fixed inset-0 pointer-events-none overflow-hidden z-[5] select-none">
       {/* 1. Subtle, Large Cyan/Purple Ambient Spot Backglow */}
       <div 
         ref={glowRef}

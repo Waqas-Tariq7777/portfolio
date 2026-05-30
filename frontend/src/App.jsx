@@ -1,4 +1,6 @@
+import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { MotionConfig } from 'framer-motion'
 import Navbar from './Components/Navbar'
 import Home from './Pages/Home'
 import About from './Pages/About'
@@ -20,9 +22,25 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
+  const [isMobileOrTablet, setIsMobileOrTablet] = useState(false)
+
+  // Detect mobile and tablet screens (max-width: 1024px)
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const media = window.matchMedia('(max-width: 1024px)')
+    const listener = () => setIsMobileOrTablet(media.matches)
+    setIsMobileOrTablet(media.matches)
+    media.addEventListener('change', listener)
+    return () => media.removeEventListener('change', listener)
+  }, [])
+
   return (
-    <Router>
-      <ScrollToTop />
+    <MotionConfig 
+      reducedMotion={isMobileOrTablet ? "always" : "never"}
+      transition={isMobileOrTablet ? { duration: 0 } : undefined}
+    >
+      <Router>
+        <ScrollToTop />
       <div className="min-h-screen bg-c-bg text-c-text transition-colors duration-300 relative">
         {/* Premium Navbar - dynamically tracks active tab from route location */}
         <Navbar />
@@ -72,6 +90,7 @@ function App() {
         />
       </div>
     </Router>
+    </MotionConfig>
   )
 }
 
