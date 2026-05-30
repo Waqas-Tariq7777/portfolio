@@ -1,5 +1,5 @@
-import { useState } from 'react'
 import { ArrowUpRight, Code2, Database, Palette, Layout, Globe, BookOpen, PenTool, Monitor, Settings, Smartphone, Bug, Zap } from 'lucide-react'
+import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 
 const services = [
@@ -116,9 +116,22 @@ function ShoppingBagIcon(props) {
 }
 
 const Services = () => {
+  const subtleFadeUp = {
+    hidden: { opacity: 0, y: 15 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" }
+    }
+  };
+
   return (
-    <section 
+    <motion.section 
       id="services" 
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={subtleFadeUp}
       className="relative z-10 w-full pt-20 pb-10 select-none overflow-hidden border-b border-c-border"
     >
       {/* Dynamic Ambient Blur Glows matching image layout exactly */}
@@ -207,7 +220,7 @@ const Services = () => {
           <ArrowUpRight className="w-4 h-4 transform transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </Link>
       </div>
-    </section>
+    </motion.section>
   )
 }
 

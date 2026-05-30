@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { useProjectStore } from '../Store/projectStore'
 import ImagePopup from '../Components/ImagePopup'
 import { 
@@ -24,6 +25,15 @@ const ProjectDetails = () => {
   }, [projects, fetchProjects])
 
   const project = projects.find((p) => p._id === id)
+
+  const subtleFadeUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" }
+    }
+  }
 
   const handleOpenPreview = (url) => {
     setPreviewUrl(url)
@@ -94,7 +104,10 @@ const ProjectDetails = () => {
       </div>
 
       {/* Core Project Details Layout Grid */}
-      <section
+      <motion.section
+        initial="hidden"
+        animate="visible"
+        variants={subtleFadeUp}
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 relative z-10 text-left"
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
@@ -418,7 +431,7 @@ const ProjectDetails = () => {
           </div>
 
         </div>
-      </section>
+      </motion.section>
 
       {/* Lightbox / preview popup for dynamic galleries */}
       <ImagePopup 

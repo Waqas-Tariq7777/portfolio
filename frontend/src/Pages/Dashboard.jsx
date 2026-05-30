@@ -30,6 +30,7 @@ import {
   Mail,
   Laptop
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useProjectStore } from "../Store/projectStore";
 import ProjectModal from "../Components/ProjectModal";
 import { useServicesStore } from "../Store/servicesStore";
@@ -494,11 +495,16 @@ const Dashboard = () => {
                           </div>
                         </div>
 
-                        {/* Collapsible Remaining Content */}
-                        {expandedProjects[proj._id] && (
-                          <div
-                            className="space-y-6 pt-6 border-t border-slate-200/50 dark:border-white/5"
-                          >
+                        {/* Collapsible Remaining Content (Smoothly via framer-motion) */}
+                        <AnimatePresence initial={false}>
+                          {expandedProjects[proj._id] && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.3, ease: "easeInOut" }}
+                              className="overflow-hidden space-y-6 pt-6 border-t border-slate-200/50 dark:border-white/5"
+                            >
                               {/* A. Additional Images Gallery */}
                               {proj.additionalImages && proj.additionalImages.length > 0 && (
                                 <div className="space-y-3">
@@ -588,8 +594,9 @@ const Dashboard = () => {
                                   )}
                                 </div>
                               )}
-                          </div>
-                        )}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
 
                         {/* View More / View Less Toggle Button */}
                         <div className="flex justify-center border-t border-slate-200/40 dark:border-white/5 pt-4">
@@ -824,16 +831,22 @@ const Dashboard = () => {
                             </div>
 
                             {/* Collapsible content (Message body) */}
-                            {isExpanded && (
-                              <div
-                                className="pt-4 mt-4 border-t border-slate-200/50 dark:border-white/5"
-                              >
-                                <h5 className="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-gray-500 mb-2">Message Body</h5>
-                                <div className="p-4 rounded-xl bg-slate-50 dark:bg-black/30 border border-slate-200/60 dark:border-white/5 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 leading-relaxed break-words whitespace-pre-wrap">
-                                  {msg.message}
-                                </div>
-                              </div>
-                            )}
+                            <AnimatePresence initial={false}>
+                              {isExpanded && (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: "auto", opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                                  className="overflow-hidden pt-4 mt-4 border-t border-slate-200/50 dark:border-white/5"
+                                >
+                                  <h5 className="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-gray-500 mb-2">Message Body</h5>
+                                  <div className="p-4 rounded-xl bg-slate-50 dark:bg-black/30 border border-slate-200/60 dark:border-white/5 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 leading-relaxed break-words whitespace-pre-wrap">
+                                    {msg.message}
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
 
                             {/* View body toggle */}
                             <div className="flex justify-center border-t border-slate-200/40 dark:border-white/5 pt-3 mt-4">

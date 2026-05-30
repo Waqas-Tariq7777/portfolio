@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import * as THREE from 'three'
 import { ArrowUpRight, Cpu, Sparkles, Briefcase, ShoppingBag, Zap, Heart, Award, Rocket, Target, Search, Compass, Layers, Code2, ShieldCheck, Palette, Globe, BookOpen, PenTool, Monitor, Settings, Smartphone, Bug, Database, Layout, Check, Loader2, ArrowRight } from 'lucide-react'
+import { motion } from 'framer-motion'
 import myImage from '../assets/images/myImage.png'
-import devIllustration from '../assets/images/developer_illustration.png'
 import Services from '../Components/Services'
 import Pricing from '../Components/Pricing'
 import Process from '../Components/Process'
@@ -23,21 +23,19 @@ const words = [
 const Home = () => {
   const mountRef = useRef(null)
   const { projects, fetchProjects, loading } = useProjectStore()
-  const [isMobile, setIsMobile] = useState(false)
-
-  // Track screen size to determine mobile/tablet for rendering fallback graphics
-  useEffect(() => {
-    const checkScreen = () => {
-      setIsMobile(window.innerWidth < 1024)
-    }
-    checkScreen()
-    window.addEventListener('resize', checkScreen, { passive: true })
-    return () => window.removeEventListener('resize', checkScreen)
-  }, [])
 
   useEffect(() => {
     fetchProjects()
   }, [])
+
+  const subtleFadeUp = {
+    hidden: { opacity: 0, y: 15 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" }
+    }
+  }
 
   // Motivational Words for the scrolling slider section paired with premium styles
   const motivationalWords = [
@@ -108,7 +106,6 @@ const Home = () => {
   }, [currentText, isDeleting, currentWordIdx])
 
   useEffect(() => {
-    if (window.innerWidth < 1024) return
     if (!mountRef.current) return
 
     // Scene Setup
@@ -573,7 +570,12 @@ const Home = () => {
       <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-[400px] h-[400px] bg-c-accent/10 rounded-full blur-[130px] pointer-events-none z-1" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <motion.div 
+          initial="hidden"
+          animate="visible"
+          variants={subtleFadeUp}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center"
+        >
           
           {/* Left Side: Content Area */}
           <div className="lg:col-span-6 space-y-8 text-left animate-in fade-in slide-in-from-left-6 duration-700">
@@ -633,21 +635,11 @@ const Home = () => {
                 maskImage: 'radial-gradient(circle, rgba(0,0,0,1) 62%, rgba(0,0,0,0) 100%)',
                 WebkitMaskImage: 'radial-gradient(circle, rgba(0,0,0,1) 62%, rgba(0,0,0,0) 100%)'
               }}
-              className="w-full h-[450px] sm:h-[550px] md:h-[600px] relative z-10 opacity-90 hover:opacity-100 transition-opacity duration-500 cursor-grab active:cursor-grabbing flex items-center justify-center"
-            >
-              {isMobile && (
-                <div className="absolute inset-0 flex items-center justify-center animate-in fade-in zoom-in duration-1000">
-                  <img 
-                    src={devIllustration}
-                    alt="Developer Illustration" 
-                    className="w-full h-full max-h-[400px] object-contain drop-shadow-[0_15px_30px_rgba(34,211,238,0.25)] select-none pointer-events-none"
-                  />
-                </div>
-              )}
-            </div>
+              className="w-full h-[450px] sm:h-[550px] md:h-[600px] relative z-10 opacity-90 hover:opacity-100 transition-opacity duration-500 cursor-grab active:cursor-grabbing"
+            />
           </div>
-        </div>
-      </div>
+         </motion.div>
+       </div>
      </section>
 
     {/* Full-Width Glassmorphic Motivational Text Slider Section */}
@@ -724,8 +716,13 @@ const Home = () => {
       </div>
     </section>
 
-    <section 
+    {/* Modern Glassy About Me Section */}
+    <motion.section 
       id="about" 
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8 }}
       className="relative w-full pt-24 pb-12 sm:pt-32 sm:pb-16 border-b border-c-border select-none overflow-hidden"
     >
       {/* Glassy Background Overlay Sandwich Layer */}
@@ -825,7 +822,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
 
     <Process />
 

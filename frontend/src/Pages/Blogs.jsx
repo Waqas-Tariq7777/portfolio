@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Filter } from 'lucide-react'
 import BlogBanner from '../Components/BlogBanner'
 import BlogCard from '../Components/BlogCard'
@@ -62,11 +63,16 @@ const Blogs = () => {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 mt-12">
-            {filteredBlogs.map((blog) => (
-              <BlogCard key={blog.id} blog={blog} />
-            ))}
-          </div>
+          <motion.div 
+            layout
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 mt-12"
+          >
+            <AnimatePresence mode="popLayout">
+              {filteredBlogs.map((blog) => (
+                <BlogCard key={blog.id} blog={blog} />
+              ))}
+            </AnimatePresence>
+          </motion.div>
         )}
 
       </section>

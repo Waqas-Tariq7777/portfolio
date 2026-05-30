@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, Send, MessageSquare, ArrowDown, User, ShieldCheck, HelpCircle } from 'lucide-react'
 import { toast } from 'react-toastify'
 import { Link } from 'react-router-dom'
@@ -37,7 +38,14 @@ const Contact = () => {
     })
   }
 
-
+  const subtleFadeUp = {
+    hidden: { opacity: 0, y: 15 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" }
+    }
+  }
 
   return (
     <div className="w-full text-slate-800 dark:text-c-text select-none overflow-hidden pb-24 bg-[#FAF9F6] dark:bg-[#0A0A0F] min-h-screen">
@@ -61,7 +69,10 @@ const Contact = () => {
         <div className="absolute bottom-1/4 right-1/3 translate-x-1/2 translate-y-1/2 w-[400px] h-[400px] bg-c-accent/15 rounded-full blur-[120px] pointer-events-none z-1 animate-pulse delay-1000" />
 
         {/* Banner Content Container */}
-        <div 
+        <motion.div 
+          initial="hidden"
+          animate="visible"
+          variants={subtleFadeUp}
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 text-left space-y-6"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200/80 dark:border-white/10 bg-white/50 dark:bg-white/5 text-xs font-bold text-c-accent uppercase tracking-wider shadow-[inset_0_1px_0_rgba(255,255,255,0.15)] backdrop-blur-md">
@@ -89,7 +100,7 @@ const Contact = () => {
               <ArrowDown className="w-3.5 h-3.5 animate-bounce" />
             </a>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Main Two-Column Contact Section */}
@@ -166,7 +177,11 @@ const Contact = () => {
 
           {/* Right Column: Glassmorphic Interactive Contact Form */}
           <div className="lg:col-span-7">
-            <div 
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
               className="p-6 sm:p-10 rounded-[32px] border border-slate-200/60 dark:border-white/5 bg-white/60 dark:bg-white/[0.015] backdrop-blur-xl shadow-xl space-y-6"
             >
               <div className="space-y-2">
@@ -272,7 +287,7 @@ const Contact = () => {
                 </div>
 
               </form>
-            </div>
+            </motion.div>
           </div>
 
         </div>

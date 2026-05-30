@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { HelpCircle, ChevronDown, Search, ShieldCheck, ArrowDown, Cpu, Sparkles } from 'lucide-react'
 import servicesBg from '../assets/images/services_bg.png'
 
@@ -67,7 +68,14 @@ const Faq = () => {
     setOpenIndex(prev => (prev === index ? null : index))
   }
 
-
+  const subtleFadeUp = {
+    hidden: { opacity: 0, y: 15 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" }
+    }
+  }
 
   return (
     <div className="w-full text-slate-800 dark:text-c-text select-none overflow-hidden pb-24 bg-[#FAF9F6] dark:bg-[#0A0A0F] min-h-screen">
@@ -91,7 +99,10 @@ const Faq = () => {
         <div className="absolute bottom-1/4 right-1/3 translate-x-1/2 translate-y-1/2 w-[400px] h-[400px] bg-c-accent/15 rounded-full blur-[120px] pointer-events-none z-1 animate-pulse delay-1000" />
 
         {/* Banner Content Container */}
-        <div 
+        <motion.div 
+          initial="hidden"
+          animate="visible"
+          variants={subtleFadeUp}
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 text-left space-y-6"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200/80 dark:border-white/10 bg-white/50 dark:bg-white/5 text-xs font-bold text-c-accent uppercase tracking-wider shadow-[inset_0_1px_0_rgba(255,255,255,0.15)] backdrop-blur-md">
@@ -119,7 +130,7 @@ const Faq = () => {
               <ArrowDown className="w-3.5 h-3.5 animate-bounce" />
             </a>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Accordion FAQ Area */}
@@ -204,11 +215,20 @@ const Faq = () => {
                   </button>
 
                   {/* Expandable Accordion Body Answer */}
-                  {isOpen && (
-                    <div className="px-6 pb-6 pt-2 border-t border-slate-100/50 dark:border-white/5 text-xs sm:text-sm font-semibold text-slate-600 dark:text-c-sec-text leading-relaxed pl-13">
-                      {faq.answer}
-                    </div>
-                  )}
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                      >
+                        <div className="px-6 pb-6 pt-2 border-t border-slate-100/50 dark:border-white/5 text-xs sm:text-sm font-semibold text-slate-600 dark:text-c-sec-text leading-relaxed pl-13">
+                          {faq.answer}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               )
             })}

@@ -1,10 +1,16 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { Calendar, Clock, ArrowRight } from 'lucide-react'
 
 const BlogCard = ({ blog }) => {
   return (
-    <div
+    <motion.div
+      layout
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.4 }}
       className="group relative flex flex-col justify-between rounded-[24px] border border-black/[0.08] dark:border-white/[0.12] bg-white/45 dark:bg-white/[0.015] shadow-[inset_0_1px_0_rgba(255,255,255,0.45)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-md hover:border-c-primary/40 dark:hover:border-c-primary/30 hover:shadow-[0_20px_50px_rgba(168,85,247,0.12)] hover:-translate-y-1.5 transition-all duration-500 overflow-hidden text-left"
     >
       <div className="absolute -inset-px rounded-[24px] bg-gradient-to-r from-c-primary/0 via-c-accent/0 to-c-accent-2/0 opacity-0 group-hover:opacity-100 group-hover:from-c-primary/10 group-hover:via-c-accent/10 group-hover:to-c-accent-2/10 blur-sm transition-all duration-500 pointer-events-none" />
@@ -61,7 +67,7 @@ const BlogCard = ({ blog }) => {
           <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover/btn:translate-x-0.5" />
         </Link>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { useProjectStore } from '../Store/projectStore'
 import portfolioBg from '../assets/images/portfolio_bg.png'
@@ -15,6 +16,15 @@ const Portfolio = () => {
   useEffect(() => {
     fetchProjects()
   }, [])
+
+  const subtleFadeUp = {
+    hidden: { opacity: 0, y: 15 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" }
+    }
+  }
 
   // Categories list derived from projects
   const categories = ['All', ...new Set(projects.flatMap(p => p.category || []).filter(Boolean))]
@@ -55,7 +65,12 @@ const Portfolio = () => {
         <div className="absolute bottom-1/4 right-1/3 translate-x-1/2 translate-y-1/2 w-[350px] h-[350px] bg-c-accent/10 rounded-full blur-[110px] pointer-events-none z-1" />
 
         {/* Banner Content Container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 text-left space-y-6">
+        <motion.div 
+          initial="hidden"
+          animate="visible"
+          variants={subtleFadeUp}
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 text-left space-y-6"
+        >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200/60 dark:border-white/10 bg-white/40 dark:bg-white/5 text-xs font-bold text-c-accent uppercase tracking-wider shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-md">
             <Briefcase className="w-3.5 h-3.5 text-c-accent" />
             <span>Showcase of Excellence</span>
@@ -81,7 +96,7 @@ const Portfolio = () => {
               <ArrowDown className="w-3.5 h-3.5 animate-bounce" />
             </a>
           </div>
-      </div>
+        </motion.div>
       </section>
 
       {/* 2. Interactive Filtering & Grid Section */}
@@ -163,9 +178,18 @@ const Portfolio = () => {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 mt-12">
+          <motion.div 
+            layout
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 mt-12"
+          >
+            <AnimatePresence mode="popLayout">
               {filteredProjects.map((proj) => (
-                <div
+                <motion.div
+                  layout
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.4 }}
                   key={proj._id}
                   className="group relative flex flex-col justify-between rounded-[24px] border border-black/[0.08] dark:border-white/[0.12] bg-white/45 dark:bg-white/[0.015] shadow-[inset_0_1px_0_rgba(255,255,255,0.45)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-md hover:border-c-primary/40 dark:hover:border-c-primary/30 hover:shadow-[0_20px_50px_rgba(168,85,247,0.12)] hover:-translate-y-1.5 transition-all duration-500 overflow-hidden"
                 >
@@ -244,9 +268,10 @@ const Portfolio = () => {
                       <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover/btn:translate-x-0.5" />
                     </Link>
                   </div>
-                </div>
+                </motion.div>
               ))}
-          </div>
+            </AnimatePresence>
+          </motion.div>
         )}
 
       </section>

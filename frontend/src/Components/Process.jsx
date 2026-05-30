@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Search, Compass, Layers, Code2, ShieldCheck, Rocket } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 const processSteps = [
   {
@@ -123,9 +124,22 @@ const Process = () => {
     }, 350)
   }
 
+  const subtleFadeUp = {
+    hidden: { opacity: 0, y: 15 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" }
+    }
+  };
+
   return (
-    <section 
+    <motion.section 
       id="process" 
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={subtleFadeUp}
       className="relative w-full pt-5 pb-12 sm:pt-5 sm:pb-16 select-none overflow-hidden border-b border-c-border"
     >
       
@@ -308,7 +322,7 @@ const Process = () => {
         </div>
 
       </div>
-    </section>
+    </motion.section>
   )
 }
 

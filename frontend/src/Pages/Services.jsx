@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useServicesStore } from '../Store/servicesStore'
 import servicesBg from '../assets/images/services_bg.png'
 import { Laptop, Cpu, CheckCircle2, Loader2, ArrowDown, Check } from 'lucide-react'

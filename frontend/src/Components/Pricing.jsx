@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Code2, Palette, Bug, Settings, Zap, Check } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 const pricingCategories = [
   {
@@ -363,9 +364,22 @@ const Pricing = () => {
     }, 300)
   }
 
+  const subtleFadeUp = {
+    hidden: { opacity: 0, y: 15 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" }
+    }
+  };
+
   return (
-    <section 
+    <motion.section 
       id="pricing" 
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={subtleFadeUp}
       className="relative z-10 w-full pt-10 pb-28 select-none overflow-hidden border-b border-c-border"
     >
       {/* Background glowing shadows matching the overall aesthetics */}
@@ -509,7 +523,7 @@ const Pricing = () => {
         </div>
 
       </div>
-    </section>
+    </motion.section>
   )
 }
 

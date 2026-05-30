@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { Star, MessageSquare, ShieldCheck, ThumbsUp, Calendar, Filter, ArrowDown } from 'lucide-react'
 
 // Import client photos & backgrounds
@@ -149,6 +150,15 @@ const Reviews = () => {
     ? reviewsData
     : reviewsData.filter(r => r.category === selectedCategory);
 
+  const subtleFadeUp = {
+    hidden: { opacity: 0, y: 15 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" }
+    }
+  }
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -174,7 +184,10 @@ const Reviews = () => {
         <div className="absolute bottom-1/4 right-1/3 translate-x-1/2 translate-y-1/2 w-[400px] h-[400px] bg-c-accent/15 rounded-full blur-[120px] pointer-events-none z-1 animate-pulse delay-1000" />
 
         {/* Banner Content Container */}
-        <div 
+        <motion.div 
+          initial="hidden"
+          animate="visible"
+          variants={subtleFadeUp}
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 text-left space-y-6"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200/80 dark:border-white/10 bg-white/50 dark:bg-white/5 text-xs font-bold text-c-accent uppercase tracking-wider shadow-[inset_0_1px_0_rgba(255,255,255,0.15)] backdrop-blur-md">
@@ -202,7 +215,7 @@ const Reviews = () => {
               <ArrowDown className="w-3.5 h-3.5 animate-bounce" />
             </a>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       <div id="reviews-grid" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 relative z-10 text-left pt-20">
@@ -231,8 +244,12 @@ const Reviews = () => {
         {/* Reviews Layout Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
           {filteredReviews.map((review, index) => (
-            <div
+            <motion.div
               key={review.name}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: index * 0.05 }}
               className="group flex flex-col justify-between p-6 rounded-3xl border border-slate-200/50 dark:border-white/5 bg-white/40 dark:bg-white/[0.015] backdrop-blur-xl shadow-lg hover:border-c-primary/30 hover:shadow-2xl transition-all duration-300"
             >
               <div className="space-y-4">
@@ -283,7 +300,7 @@ const Reviews = () => {
                   <span>{review.date}</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
