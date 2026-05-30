@@ -1,20 +1,20 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 const InteractiveBackground = () => {
   const location = useLocation()
   const containerRef = useRef(null)
   const glowRef = useRef(null)
-  const [isDesktop, setIsDesktop] = useState(false)
+  const [isDesktop, setIsDesktop] = useState(true)
 
-  // Track screen size to enable mouse interaction only on laptops/desktops (min-width: 1025px)
+  // Track screen size for desktop vs phone/tablet
   useEffect(() => {
-    if (typeof window === 'undefined') return
-    const media = window.matchMedia('(min-width: 1025px)')
-    const listener = () => setIsDesktop(media.matches)
-    setIsDesktop(media.matches)
-    media.addEventListener('change', listener)
-    return () => media.removeEventListener('change', listener)
+    const checkScreen = () => {
+      setIsDesktop(window.innerWidth >= 1024)
+    }
+    checkScreen()
+    window.addEventListener('resize', checkScreen, { passive: true })
+    return () => window.removeEventListener('resize', checkScreen)
   }, [])
 
   // Hide on login page or admin dashboard / admin pages
@@ -124,12 +124,12 @@ const InteractiveBackground = () => {
       window.removeEventListener('mousemove', handleMouseMove)
       cancelAnimationFrame(animId)
     }
-  }, [isExcludedRoute])
+  }, [isExcludedRoute, isDesktop])
 
-  if (isExcludedRoute || !isDesktop) return null;
+  if (isExcludedRoute) return null;
 
   return (
-    <div className="hidden lg:block fixed inset-0 pointer-events-none overflow-hidden z-[5] select-none">
+    <div className="fixed inset-0 pointer-events-none overflow-hidden z-[5] select-none">
       {/* 1. Subtle, Large Cyan/Purple Ambient Spot Backglow */}
       <div 
         ref={glowRef}
@@ -137,10 +137,10 @@ const InteractiveBackground = () => {
         style={{ willChange: 'transform' }}
       />
 
-      {/* 2. Interactive Aircraft Cursor Follower Wrapper */}
+      {/* 2. Interactive Aircraft Cursor Follower Wrapper - Hidden on Mobile/Tablet */}
       <div 
         ref={containerRef}
-        className="absolute top-0 left-0 w-16 h-16 -ml-8 -mt-8 flex items-center justify-center transition-opacity duration-700 opacity-90"
+        className="absolute top-0 left-0 w-16 h-16 -ml-8 -mt-8 hidden lg:flex items-center justify-center transition-opacity duration-700 opacity-90"
         style={{ willChange: 'transform' }}
       >
         {/* Soft Glass Outline circular radar shield - optimized by removing expensive backdrop-blur */}

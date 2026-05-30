@@ -22,26 +22,22 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
-  const [isMobileOrTablet, setIsMobileOrTablet] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
-  // Detect mobile and tablet screens (max-width: 1024px)
   useEffect(() => {
-    if (typeof window === 'undefined') return
-    const media = window.matchMedia('(max-width: 1024px)')
-    const listener = () => setIsMobileOrTablet(media.matches)
-    setIsMobileOrTablet(media.matches)
-    media.addEventListener('change', listener)
-    return () => media.removeEventListener('change', listener)
+    const checkScreen = () => {
+      setIsMobile(window.innerWidth < 1024)
+    }
+    checkScreen()
+    window.addEventListener('resize', checkScreen, { passive: true })
+    return () => window.removeEventListener('resize', checkScreen)
   }, [])
 
   return (
-    <MotionConfig 
-      reducedMotion={isMobileOrTablet ? "always" : "never"}
-      transition={isMobileOrTablet ? { duration: 0 } : undefined}
-    >
-      <Router>
-        <ScrollToTop />
-      <div className="min-h-screen bg-c-bg text-c-text transition-colors duration-300 relative">
+    <Router>
+      <ScrollToTop />
+      <MotionConfig transition={isMobile ? { duration: 0 } : undefined} reducedMotion={isMobile ? "always" : "never"}>
+        <div className="min-h-screen bg-c-bg text-c-text transition-colors duration-300 relative">
         {/* Premium Navbar - dynamically tracks active tab from route location */}
         <Navbar />
 
@@ -89,8 +85,8 @@ function App() {
           theme="dark"
         />
       </div>
+      </MotionConfig>
     </Router>
-    </MotionConfig>
   )
 }
 

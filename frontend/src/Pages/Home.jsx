@@ -4,6 +4,7 @@ import * as THREE from 'three'
 import { ArrowUpRight, Cpu, Sparkles, Briefcase, ShoppingBag, Zap, Heart, Award, Rocket, Target, Search, Compass, Layers, Code2, ShieldCheck, Palette, Globe, BookOpen, PenTool, Monitor, Settings, Smartphone, Bug, Database, Layout, Check, Loader2, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 import myImage from '../assets/images/myImage.png'
+import devIllustration from '../assets/images/developer_illustration.png'
 import Services from '../Components/Services'
 import Pricing from '../Components/Pricing'
 import Process from '../Components/Process'
@@ -23,6 +24,17 @@ const words = [
 const Home = () => {
   const mountRef = useRef(null)
   const { projects, fetchProjects, loading } = useProjectStore()
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Track screen size to determine mobile/tablet for rendering fallback graphics
+  useEffect(() => {
+    const checkScreen = () => {
+      setIsMobile(window.innerWidth < 1024)
+    }
+    checkScreen()
+    window.addEventListener('resize', checkScreen, { passive: true })
+    return () => window.removeEventListener('resize', checkScreen)
+  }, [])
 
   useEffect(() => {
     fetchProjects()
@@ -106,6 +118,7 @@ const Home = () => {
   }, [currentText, isDeleting, currentWordIdx])
 
   useEffect(() => {
+    if (window.innerWidth < 1024) return
     if (!mountRef.current) return
 
     // Scene Setup
@@ -635,8 +648,18 @@ const Home = () => {
                 maskImage: 'radial-gradient(circle, rgba(0,0,0,1) 62%, rgba(0,0,0,0) 100%)',
                 WebkitMaskImage: 'radial-gradient(circle, rgba(0,0,0,1) 62%, rgba(0,0,0,0) 100%)'
               }}
-              className="w-full h-[450px] sm:h-[550px] md:h-[600px] relative z-10 opacity-90 hover:opacity-100 transition-opacity duration-500 cursor-grab active:cursor-grabbing"
-            />
+              className="w-full h-[450px] sm:h-[550px] md:h-[600px] relative z-10 opacity-90 hover:opacity-100 transition-opacity duration-500 cursor-grab active:cursor-grabbing flex items-center justify-center"
+            >
+              {isMobile && (
+                <div className="absolute inset-0 flex items-center justify-center animate-in fade-in zoom-in duration-1000">
+                  <img 
+                    src={devIllustration}
+                    alt="Developer Illustration" 
+                    className="w-full h-full max-h-[400px] object-contain drop-shadow-[0_15px_30px_rgba(34,211,238,0.25)] select-none pointer-events-none"
+                  />
+                </div>
+              )}
+            </div>
           </div>
          </motion.div>
        </div>
